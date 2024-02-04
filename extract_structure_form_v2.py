@@ -16,7 +16,15 @@ def list_element_parents(element):
         lr+=[tmp]
         tmp=tmp.getparent()
     return lr
-
+def correct_tag(itag):
+    ntag=itag
+    if itag == 'br':
+        ntag = 'span'
+    if 'cyfunction' in itag:
+        ntag = 'span'
+    if 'ix:' in itag:
+        ntag = 'div'
+    return ntag
 def filter_html(fname, fromid=100, toid=1000,debug=0):
     """
     very powerful function that enables to filter an html document and only keep the middle of it
@@ -52,7 +60,7 @@ def filter_html(fname, fromid=100, toid=1000,debug=0):
             list_parents=list_element_parents(element)[:-1]
             new_root_loc = new_root
             for par in reversed(list_parents):
-                new_root_loc = etree.SubElement(new_root_loc, par.tag)
+                new_root_loc = etree.SubElement(new_root_loc, correct_tag(par.tag))
             if debug > 0:
                 print('new_element:  ' + new_root.getroottree().getpath(new_root_loc))
                 print('-'*10)
@@ -93,12 +101,10 @@ def filter_html(fname, fromid=100, toid=1000,debug=0):
 
         #try:
         new_tag =  str(element.tag)
-        if new_tag=='br':
-            new_tag='span'
-        if 'cyfunction' in new_tag:
-            new_tag='span'
+
         try:
-            new_element = etree.SubElement(new_root_loc,new_tag)  # ,attrib=element.attrib,nsmap=element.nsmap
+            new_element = etree.SubElement(new_root_loc,correct_tag(new_tag))
+            # ,attrib=element.attrib,nsmap=element.nsmap
         except Exception as e:
             new_tag='span'
             new_element = etree.SubElement(new_root_loc, new_tag)

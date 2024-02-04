@@ -1,0 +1,27 @@
+mydata=[
+    {'s':'The Advisers services under the Advisory Agreement are not exclusive, and the Adviser is free to furnish similar or other services to others so long as its services to the Company are not impaired.',
+    'label':'other'},
+    {'s':'{"1":{"0":"(i) "},"2":{"0":" First, no Incentive Fee will be owed until the unitholders have collectively received cumulative distributions pursuant to this clause (i) equal to their aggregate capital contributions to the Company in respect of all units; "}}',
+     'label':'other'},
+    {'s':'SECTION 16(A) BENEFICIAL OWNERSHIP REPORTING COMPLIANCE',
+     'label': 'other'},
+    {'s': 'SECURITY OWNERSHIP OF CERTAIN BENEFICIAL OWNERS AND MANAGEMENT',
+     'label': 'ownership'},
+    {'s': 'The following sets forth, as of the Record Date, the beneficial ownership of Company units by directors, officers and persons owning beneficially 5% or more of the units of the Company:',
+     'label': 'ownership'},
+    {'s': 'The following sets forth, as of the Record Date, the beneficial ownership of Company units by directors, officers and persons owning beneficially 5% or more of the units of the Company:',
+        'label': 'ownership'},
+    {'s':'CERTAIN RELATIONSHIPS AND RELATED PARTY TRANSACTIONS',
+     'label':'other'},
+    {'s':'{"0":{"0":"B. "},"1":{"0":" Responsibilities Regarding the Engagement of the Independent Accountants "}}',
+     'label':'other'},
+    {'s':'To carry out its purposes, the responsibilities of the Committee shall be as follows: ',
+     'label':'other'},
+    {'s':'{"0":{"0":"(1) "},"1":{"0":" The number of units are those beneficially owned as determined under the rules of the SEC, and such information is not necessarily indicative of beneficial ownership for any other purpose. Under such rules, beneficial ownership includes any units as to which a person has sole or shared voting power or investment power and any units which the person has the right to acquire within 60 days through the exercise of any option, warrant or right, through conversion of any security or pursuant to the automatic termination of a power of attorney or revocation of a trust, discretionary account or similar arrangement. The percentages used herein are calculated based upon 3,753,190common units outstanding, which reflects the number of common units issued and outstanding as of the Record Date. "}}',
+     'label':'ownership'},
+    {'s':'{"0":{"1":" Name and Address [B]","2":" Independent Directors [B]","3":" Sheila A. Finnerty ","4":" Saverio M. Flemma ","5":" R. David Kelly ","6":" Andrew W. Tarica ","7":" Interested Directors [B]","8":" Richard T. Miller ","9":" Laird R. Landmann ","10":" Officers [B]","11":" Andrew Kim ","12":" Gayle Espinosa ","13":" Joseph Magpayo ","14":" David Wang ","15":" Gladys Xiques ","16":" Other Beneficial Owners [B]","17":" NLGI US Private Debt Fund II(2) "},"2":{"1":"Amount of UnitsBeneficially Ownedand Nature ofOwnership1 [B]","2":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9":null,"10":null,"11":null,"12":null,"13":null,"14":null,"15":null,"16":null,"17":null},"3":{"1":null,"2":null,"3":0.0,"4":0.0,"5":0.0,"6":0.0,"7":null,"8":0.0,"9":0.0,"10":null,"11":0.0,"12":0.0,"13":0.0,"14":0.0,"15":0.0,"16":null,"17":3753190.0},"5":{"1":"Percentage ofClass Owned1 [B]","2":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9":null,"10":null,"11":null,"12":null,"13":null,"14":null,"15":null,"16":null,"17":null},"7":{"1":null,"2":null,"3":"* ","4":"* ","5":"* ","6":"* ","7":null,"8":"* ","9":"* ","10":null,"11":"* ","12":"* ","13":"* ","14":"* ","15":"* ","16":null,"17":100},"8":{"1":null,"2":null,"3":null,"4":null,"5":null,"6":null,"7":null,"8":null,"9":null,"10":null,"11":null,"12":null,"13":null,"14":null,"15":null,"16":null,"17":"% "}}',
+     'label':'ownership'},
+    {'s':'All investment professionals and staff of the Adviser, when and to the extent engaged in providing the Company investment advisory and management services (which exclude services provided pursuant to the Administration Agreement), and the base compensation, bonus and benefits, and the routine overhead expenses, of such personnel allocable to such services, will be provided and paid for by the Adviser.',
+     'label':'other'}
+]
+

@@ -1,0 +1,457 @@
+
+Natural Language Processing
+and Computational Linguistics
+A practical guide to text analysis with Python, Gensim, spaCy and Keras
+
+
+Methods such as topic modeling can help us identify key topics in large, unstructured bodies of text.
+
+A corpus is a collection of Document objects
+https://www.nltk.org/book/ch02.html
+rom nltk.corpus import reuters
+>>> reuters.fileids()
+['test/14826', 'test/14828', 'test/14829', 'test/14832', ...]
+>>> reuters.categories()
+['acq', 'alum', 'barley', 'bop', 'carcass', 'castor-oil', 'cocoa',
+'coconut', 'coconut-oil', 'coffee', 'copper', 'copra-cake', 'corn',
+'cotton', 'cotton-oil', 'cpi', 'cpu', 'crude', 'dfl', 'dlr', ...]
+
+
+
+spacy, nltk, corenlp et syntaxnet
+
+syntaxnet is for tensorflow
+
+spacy download en_core_web_sm
+
+
+Stemming usually involves chopping off the end of the word, following some basic rules.
+For example, the words say, saying, and says would all become say.
+Stemming is contextless and does not rely on part of speech, for example, to make its decisions.
+Lemmatization, on the other hand, conducts morphological analysis to find the root word.
+
+In spaCy, the lemmatized form of a word is accessed with the .lemma_ attribute.
+
+doc = nlp(u'the horse galloped down the field and past the river.')
+sentence = []
+for w in doc:
+ # if it's not a stop word or punctuation mark, add it to our article!
+ if w.text != 'n' and not w.is_stop and not w.is_punct and not w.like_num:
+   # we add the lematized version of the word
+   sentence.append(w.lemma_)
+print(sentence)
+
+BAG of words = CountVectorizer!!!
+
+N-grams, and in particular, bi-grams :: adding context
+For example, New York or Machine Learning could be two possible pairs of words created by bi-grams.
+
+
+
+The Brown corpus is one example of a corpus that is very well annotated with POS-tag data. The first
+ few probabilistic models used to train a POS-tagger would use Hidden Markov Models [4] to predict the tag.
+For example, once you've seen an article such as the, perhaps the next word is a noun 40% of the time,
+ an adjective 35%, and a number 25%
+chaque mot est un etat dans le HMM!!!!!
+https://aclweb.org/aclwiki/POS_Tagging_(State_of_the_art)
+
+Indeed, one of spaCy's very first POS-taggers was an averaged perceptron
+
+A perceptron used for POS-tagging works by learning the probability of the tag of the word based on various features,
+ or information – these can include the tag of the previous word or the last few letters of the word.
+
+
+
+Hidden Markov Models are another model for part-of-speech tagging (and sequential labeling in general)
+p(li|li−1) are transition probabilities (e.g., the probability that a preposition is followed by a noun);
+p(wi|li) are emission probabilities (e.g., the probability that a noun emits the word “dad”).
+
+etat cache c'est noun,adj, ...
+et chaque categorie emet des mots : cat, dog,eat ...
+
+
+***************************
+Conditional Random Fields   === HMM with external features
+***************************
+http://blog.echen.me/2012/01/03/introduction-to-conditional-random-fields/
+C'est tres interesant et c'est une alternative a mon systeme de score qui peut etre entrainee plus facilement
+A better way is to realize that (linear-chain) CRFs satisfy an optimal substructure property that allows us to
+use a (polynomial-time) dynamic programming algorithm to find the optimal label, similar to the Viterbi algorithm
+ for HMMs.
+ https://www.geeksforgeeks.org/conditional-random-fields-crfs-for-pos-tagging-in-nlp/
+ https://notebook.community/TeamHG-Memex/eli5/notebooks/sklearn-crfsuite
+
+ le crf a le concept de document
+ /Users/sachadrevet/anaconda3/lib/python3.11/site-packages/sklearn_crfsuite/estimator.py
+ sklearn_crfsuite  is using https://python-crfsuite.readthedocs.io/en/latest/pycrfsuite.html
+https://python-crfsuite.readthedocs.io/en/latest/pycrfsuite.html
+https://github.com/chokkan/crfsuite
+a vocab is built as well if we input strings
+
+ An Introduction to Conditional Random Fields
+By Charles Sutton and Andrew McCallum
+
+https://utkarsh-kumar2407.medium.com/named-entity-recognition-using-bidirectional-lstm-crf-9f4942746b3c
+interessant !
+
+https://pytorch-crf.readthedocs.io/en/stable/
+
+
+
+Like most NLP tasks, finishing one task can greatly help in other tasks.
+In this case, having a sentence parsed with phrasal rules can help us in NER-tagging.
+Dependancy parsing must help NER tasks
+
+-------------------------------
+TOPIC MODELLING
+
+For example, if we are working with a corpus of newspaper articles,
+possible topics would be weather, politics, sport, and so on.
+
+Gensim [2] to create our models, which has implementations of Latent Dirichlet Allocation (LDA),
+Latent semantic analysis (LSA), Hierarchical Dirichlet Process (HDP), and Dynamic Topic Modelling (DTM)
+ to help us with this.
+
+ http://blog.echen.me/2011/08/22/introduction-to-latent-dirichlet-allocation/
+ https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.LatentDirichletAllocation.html
+
+
+ Like we discussed before, LDA helps us model a corpus based on topic distributions, which are in turn
+ made of word distributions. What exactly is a distribution of words? Gensim lets us understand and
+ use this very easily.
+
+LdaModel from gensim.models
+   ldamodel = LdaModel(corpus=corpus, num_topics=10, id2word=dictionary)
+      ldamodel.show_topics()
+  model.get_term_topics('water')
+
+
+
+ The other standard topic modeling algorithm popular in Gensim is Hierarchical Dirichlet process (HDP) -
+ it is also a brainchild of Micheal. I. Jordan and David Blei. It is different from LDA and LSI because
+  it is non-parametric - we don't need to mention the number of topics we need.
+
+  from sklearn.decomposition import NMF, LatentDirichletAllocation
+   no_topic = 10
+   nmf = NMF(n_components=no_topic).fit(tfidf_corpus)
+   lda = LatentDirichletAllocation(n_topics=no_topics).fit(tf_corpus)
+
+
+   lsi_coherence = CoherenceModel(topics=lsitopics[:10], texts=texts,
+   dictionary=dictionary, window_size=10)
+
+
+
+   pyLDAvis  ::: visualisation of topics
+
+    import pyLDAvis.gensim
+   pyLDAvis.gensim.prepare(model, corpus, dictionary)
+
+TOPIC MODELLING == REDUCING the dimension of the text data!
+Of course, we will do our best to reduce our dimensions using some of the techniques
+like SVD, LDA, and LSI, which we discussed before.
+
+
+
+Distance between document is run on the topic modelling data
+   from gensim.matutils import kullback_leibler, jaccard, hellinger
+   hellinger(lda_bow_water, lda_bow_finance)
+   0.5125119977875359
+   hellinger(lda_bow_finance, lda_bow_bank)
+   0.2340730527221049
+   hellinger(lda_bow_bank, lda_bow_water)
+   0.28728176544255285
+
+
+   kullback_leibler(lda_bow_water, lda_bow_bank)
+0.30823547
+   kullback_leibler(lda_bow_bank, lda_bow_water)
+0.36547804
+
+nlike the other distance functions, the Jaccard method also works on a bag of words.
+ jaccard(bow_water, bow_bank)
+   0.8571428571428572
+   jaccard(doc_water, doc_bank)
+   0.8333333333333334
+   jaccard(['word'], ['word'])
+0.0
+kullback_leibler and hellinger are distances between distributions
+
+
+# TODO : pls try the KL divergence between two Rnormal with same parameters but independant!!!
+
+Scipy's entropy function will calculate KL divergence if feed two vectors p and q, each representing a probability distribution. If the two vectors aren't pdfs, it will normalize then first.
+
+
+
+
+ from gensim import similarities
+ index = similarities.MatrixSimilarity(model[corpus])
+  sims = index[lda_bow_finance]
+  print(list(enumerate(sims)))
+   [(0, 0.36124918),
+    (1, 0.27387184),
+    (2, 0.30807066),
+
+
+
+------- SUMMARY on gensim
+TextRank
+from gensim.summarization import summarize
+it picks sentences from the text that are key
+
+   from gensim.summarization import keywords
+   print(keywords(text))
+
+   The simple answer is PageRank is for webpage ranking, and TextRank is for text ranking
+   Each word is a node in PageRank. We set the window size as k.
+   Any two-word pairs in a window are considered have an undirected edge.
+   Based on this graph, we can calculate the weight for each node(word). The most important words can be used as keywords.
+
+
+
+   ----------Word2Vec, Doc2Vec, and Gensim
+
+word2vec :
+The papers, Efficient Estimation of Word Representations in Vector Space [1] [Mikolov and others, 2013],
+Distributed Representations of Words and Phrases and their Compositionality [2] [Mikolov and others, 2013],
+and Linguistic Regularities in Continuous Space Word Representations [3] [Mikolov and others, 2013] lay the
+ foundations for Word2Vec and describe their uses.
+
+ We choose a sliding window size, and based on this window size, attempt to identify the conditional
+ probability of observing the output word based on the surrounding words.
+
+ There are two main methods to perform Word2Vec training, which are the
+ Continuous Bag of Words model (CBOW) and the Skip Gram model
+
+The idea of skip-gram is that the vector of a word should be close to the vector of each of its neighbors.
+ The idea of CBOW is that the vector-sum of a word's neighbors should be close to the vector of the word.
+
+
+ Word2vec model is very simple and has only two layers
+ - Embedding layer, which takes word ID and returns its 300-dimensional vector.
+ https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html
+ Embedding is a look up table. requires sparse gradient!
+ - Then comes the Linear (Dense) layer with a Softmax activation
+https://towardsdatascience.com/word2vec-with-pytorch-implementing-original-paper-2cd7040120b0
+ l'idee c'est qu'on lui passe que 5 mots a la fois!!! ET IL DEVINE CELUI DU MILIEU
+
+  It turns out that these vectors are weights of the Embedding layer.
+
+class CBOW_Model(nn.Module):
+    def __init__(self, vocab_size: int):
+        super(CBOW_Model, self).__init__()
+        self.embeddings = nn.Embedding(
+            num_embeddings=vocab_size,
+            embedding_dim=EMBED_DIMENSION,
+            max_norm=EMBED_MAX_NORM,
+        )
+        self.linear = nn.Linear(
+            in_features=EMBED_DIMENSION,
+            out_features=vocab_size,
+        )
+     def forward(self, inputs_):
+        x = self.embeddings(inputs_)
+        x = x.mean(axis=1)
+        x = self.linear(x)
+        return x
+
+
+
+ from gensim.models import word2vec
+ sentences = word2vec.Text8Corpus('text8')
+   model = word2vec.Word2Vec(sentences, size=200, hs=1)
+model.wv.most_similar_cosmul(positive=['woman', 'king'], negative=['man'])
+model.save("text8_model")
+   model = word2vec.Word2Vec.load("text8_model")
+
+   model.wv.similarity('woman', 'man')
+
+   word_vectors = model.wv ## keyed vectors FOR GENSIM
+
+
+   from gensim.models import KeyedVectors
+   # load the google word2vec model
+   filename = 'GoogleNews-vectors-negative300.bin'
+   model = KeyedVectors.load_word2vec_format(filename, binary=True)
+
+
+
+   -----------------------
+   Doc2Vec
+   If you feel familiar with the sketch above, it’s because it is a small extension
+   to the CBOW model. But instead of using just words to predict the next word, we
+   also added another feature vector, which is document-unique.
+   https://medium.com/wisio/a-gentle-introduction-to-doc2vec-db3e8c0cce5e
+
+   --->much better than vector averaging
+
+   The one major difference about Gensim's Doc2Vec implementation is that it doesn't expect
+   a simple corpus as input – the algorithm expects tags or labels, and we are also expected
+   to provide this as part of our input. Gensim helps us do this with.
+gensim.models.doc2vec.LabeledSentence
+   gensim.models.doc2vec.TaggedDocument
+
+      def read_corpus(file_name, tokens_only=False):
+       with smart_open.smart_open(file_name, encoding="iso-8859-1") as f:
+           for i, line in enumerate(f):
+               if tokens_only:
+                   yield gensim.utils.simple_preprocess(line)
+               else:
+                   # For training data, add tags
+                   yield gensim.models.doc2vec.TaggedDocument(
+                   gensim.utils.simple_preprocess(line), [i])
+
+
+gensim.utils.simple_preprocess(doc, deacc=False, min_len=2, max_len=15)[source]
+Convert a document into a list of tokens.
+
+This lowercases, tokenizes, de-accents (optional). – the output are final tokens =
+unicode strings, that won’t be processed any further.
+
+model = gensim.models.doc2vec.Doc2Vec(vector_size=50, min_count=2,
+   epochs=100)
+model.build_vocab(train_corpus)
+   model.train(train_corpus, total_examples=model.corpus_count,
+               epochs=model.epochs)
+
+
+
+FastText is unique because it can derive word vectors for unknown words or out of vocabulary words –
+this is because by taking morphological characteristics of words into account, it can create the word
+ vector for an unknown word.
+
+ from gensim.models.fasttext import FastText
+   ft_model = FastText(size=100)
+   ft_model.build_vocab(data)
+   ft_model.train(data, total_examples=ft_model.corpus_count,
+                  epochs=ft_model.iter)
+One interesting exercise to try out with FastText is to see how it evaluates words not present in the vocabulary. Consider this example:
+   print('dog' in ft_model.wv.vocab)
+   print('dogs' in ft_model.wv.vocab)
+True False
+But, we can still generate word vectors for both dog and dogs despite dogs not being in the training vocabulary! A quick observation of
+the vectors also tells us that they are quite similar as we would expect. We can further verify this:
+
+
+from gensim.models.wrappers import varembed
+
+
+
+-----------------------------DEEP LEARNING
+https://colah.github.io/posts/2015-08-Understanding-LSTMs/
+LSTM = CELL STATE CT,Hidden state ht
+
+
+
+https://colah.github.io/posts/2015-08-Backprop/
+
+Fundamentally, it’s a technique for calculating derivatives quickly.
+This general “sum over paths” rule is just a different way of thinking about the multivariate chain rule.
+
+import keras
+   from keras.models import Sequential
+   from keras.layers import LSTM, Dense, Dropout
+   from keras.callbacks import ModelCheckpoint
+   from keras.utils import np_utils
+   import numpy as np
+
+
+   odel = Sequential()
+   model.add(LSTM(256, input_shape=(X.shape[1], X.shape[2])))
+   model.add(Dropout(0.2))
+   model.add(Dense(y.shape[1], activation='softmax'))
+   model.compile(loss='categorical_crossentropy', optimizer='adam')
+
+
+   Because dropout removes a whole row from the vector matrix,
+   the previous (unlisted) assumptions for weak dilution and the use of mean field theory are not applicable.
+
+
+   from keras.preprocessing import sequence
+   from keras.models import Sequential
+   from keras.layers import Dense, Embedding
+   from keras.layers import LSTM
+   from keras.datasets import imdb
+
+   max_features = 20000
+   maxlen = 80  # cut texts after this number of words (among top max_features
+   most common words)
+   batch_size = 32
+   print('Loading data...')
+   (x_train, y_train), (x_test, y_test) =
+   imdb.load_data(num_words=max_features)
+   print(len(x_train), 'train sequences')
+   print(len(x_test), 'test sequences')
+   print('Pad sequences (samples x time)')
+   x_train = sequence.pad_sequences(x_train, maxlen=maxlen)
+   x_test = sequence.pad_sequences(x_test, maxlen=maxlen)
+   print('x_train shape:', x_train.shape)
+   print('x_test shape:', x_test.shape)
+
+
+   print('Build model...')
+   model = Sequential()
+   model.add(Embedding(max_features, 128)) #vocab size
+   model.add(LSTM(128, dropout=0.2, recurrent_dropout=0.2))
+   model.add(Dense(1, activation='sigmoid'))
+
+
+   # try using different optimizers and different optimizer configs
+   model.compile(loss='binary_crossentropy',
+                 optimizer='adam',
+                 metrics=['accuracy'])
+
+      print('Train...')
+   model.fit(x_train, y_train,
+             batch_size=batch_size,
+             epochs=15,
+             validation_data=(x_test, y_test))
+
+
+
+   score, acc = model.evaluate(x_test, y_test,
+                               batch_size=batch_size)
+   print('Test score:', score)
+   print('Test accuracy:', acc)
+
+
+      embedding_layer = Embedding(num_words,
+                               EMBEDDING_DIM,
+                               weights=[embedding_matrix],
+                               input_length=MAX_SEQUENCE_LENGTH,
+                               trainable=False)
+
+Generally, the convolutional model will perform better than
+ a sequential model, and the model using the word embeddings performs even better.
+
+
+There are two ways to perform text classification with spaCy –
+ one is using its own neural network library, thinc, while the other uses Keras.
+
+
+           def compile_lstm(embeddings, shape, settings):
+               model = Sequential()
+               model.add(
+                   Embedding(
+                       embeddings.shape[0],
+                       embeddings.shape[1],
+                       input_length=shape['max_length'],
+                       trainable=False,
+                       weights=[embeddings],
+                       mask_zero=True
+) )
+               model.add(TimeDistributed(Dense(shape['nr_hidden'],
+                                               use_bias=False)))
+               model.add(Bidirectional(LSTM(shape['nr_hidden'],
+                                       recurrent_dropout=settings['dropout'],
+                                       dropout=settings['dropout'])))
+               model.add(Dense(shape['nr_class'], activation='sigmoid'))
+               model.compile(optimizer=Adam(lr=settings['lr']),
+                             loss='binary_crossentropy',metrics=['accuracy'])
+return model
+
+https://spacy.io/api/sentencizer   ::: detects sentences
+
+   doc = nlp(text)
+   sentiment_value = doc.sentiment

@@ -1,0 +1,47 @@
+
+
+extract_table_content :: takes the table of content
+
+extract_meta_form :: only for meta information
+
+extract_structure_form :: table with the structure of the html
+
+Tools for converting html into text files :
+convert_html_text.py :: a flattenizer that is quite nice. Issue is it knows what to keep based on a score that is not robust
+blocks_html.py :: same as above but we create blocks together based on the html level of the tag.
+blocks_html_v1.py :: re-written better quality and tested
+structure_html_no_duplicates.py :: same as convert_html_text.py
+from .extract_structure_form_v2 import filter_html :: filters from elemid to elemid an html document
+
+extract_table_content_section_supervised :: creates a dataset with section name and if it is the ownership section or not
+
+extract_table_content_supervised :: creates a dataset with 1 row = 1 table and we store meta information and 1 column target=1/0 if it is or
+not a content table.
+
+
+classify_rows_ownership_table_supervised.py :: looks at an ownership table and finds which rows are header, content
+and also it classifies headers into the relevant categories.
+
+classify_ownership_text_hmm.py ::classifier if a paragraph of the full form is the ownership table or the ownership footnote
+classify_ownership_text_hmm_v1.py :: works decently well
+classify_ownership_text_crf.py :: same but using a crf trained
+TODO : collect_footnotes.py
+
+
+Pytorch codes :
+finetune_bert_qa_v2.py :: training script I took online
+qa_supervised.py :: applies transformers
+pytorch_tuto folder :: tutorials/course found online
+pytorch folder :: my training scripts for qa and classifier
+
+
+prepare_data_qa_v1.py :: not only prepares but does the training
+prepare_data_classif.py :: not only prepares but does the training
+
+
+
+corpus_create.py :: creates a vocab using bpe
+topics_lda.py :: marche moyen qd meme
+
+
+page_footer_clean.py :: removes things repeated at the end of each page

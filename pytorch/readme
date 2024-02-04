@@ -1,0 +1,33 @@
+list of hugging face projects:
+
+https://huggingface.co/jiaoqsh/mt5-base-finetuned-stocks-event-all
+la tache est de summarise des stocks events
+
+https://www.kaggle.com/datasets/sbhatti/financial-sentiment-analysis good for training classif model
+
+
+from pandas_profiling import ProfileReport
+https://github.com/ydataai/ydata-profiling
+To enable a time-series report to be generated ts_mode needs to be set to True
+---------------> VERY USEFUL!!!!!
+
+
+https://www.kaggle.com/code/supreethrao/bert-s-a-stock-market-guru-86-22-huggingface
+------------ VERY INTERESTING --------------------
+from nltk.stem.wordnet import WordNetLemmatizer
+from nltk import word_tokenize
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from nltk.stem.snowball import SnowballStemmer
+
+
+https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html
+Ca permet d'eviter le vocabulaire... mais c'est pareil!!
+
+For pre-trained models, libraries like gensim, spaCy, and torchtext are good options.
+from gensim.models import Word2Vec
+model = Word2Vec(sentences, min_count=10, size=100)
+
+from gensim.models import Doc2Vec
+model = Doc2Vec(documents, min_count=5, vector_size=300)
+
+https://towardsdatascience.com/simple-wordcloud-in-python-2ae54a9f58e5

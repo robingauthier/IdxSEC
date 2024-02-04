@@ -1,0 +1,58 @@
+start lima
+then do :
+airflow standalone
+
+where is the config ?
+/home/sachadrevet.linux/airflow
+
+
+How do you remove examples ???
+# Whether to load the DAG examples that ship with Airflow. It's good to
+# get started, but you probably want to set this to ``False`` in a production
+# environment
+#
+# Variable: AIRFLOW__CORE__LOAD_EXAMPLES
+#
+#load_examples = True
+load_examples = False
+
+
+airflow db reset
+
+then read the text it says :
+Login with username: admin  password: HutSBHq3hBUbXg9F
+
+airflow users create \
+    --username admin \
+    --firstname Sacha \
+    --lastname Drevet \
+    --role Admin \
+    --email sacha.drevet@gmail.com
+
+http://localhost:8080/home
+
+
+https://en.wikipedia.org/wiki/Cron#CRON_expression
+
+
+# airflow backfill tutorial -s 2015-06-01 -e 2015-06-07
+
+
+
+airflow dags list
+Error: Failed to load all files. For details, run `airflow dags list-import-errors`
+********
+this command is super useful and enables to debug ::
+airflow dags list-import-errors
+********
+
+
+*****************
+How do I test once it the DAG has been recognized ?
+airflow dags test form14
+---> you can put some debugging in the code but not in the dag definition
+---> but if it crashed you cannot do %debug which is a shame
+*****************
+
+
+On the UI, you need to push every task to Paused=False because this is not the default
